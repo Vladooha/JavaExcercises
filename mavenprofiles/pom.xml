@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.vladooha</groupId>
+    <artifactId>maven-profiles</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <var.mainclass>NONE</var.mainclass>
+    </properties>
+
+    <profiles>
+        <profile>
+            <id>profile-1</id>
+            <activation>
+                <property>
+                    <name>profnum</name>
+                    <value>1</value>
+                </property>
+            </activation>
+            <properties>
+                <var.mainclass>com.vladooha.Main1</var.mainclass>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>profile-2</id>
+            <activation>
+                <property>
+                    <name>profnum</name>
+                    <value>2</value>
+                </property>
+            </activation>
+            <properties>
+                <var.mainclass>com.vladooha.Main2</var.mainclass>
+            </properties>
+        </profile>
+    </profiles>
+
+    <!-- adding main class to manifest -->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.4.1</version>
+                <configuration>
+                    <!-- get all project dependencies -->
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <!-- get main class for jar -->
+                    <archive>
+                        <manifest>
+                            <mainClass>${var.mainclass}</mainClass>
+                        </manifest>
+                    </archive>
+
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <!-- bind to the package -->
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
+
+    <!-- custom dependency-->
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.11.1</version>
+        </dependency>
+    </dependencies>
+
+</project>
