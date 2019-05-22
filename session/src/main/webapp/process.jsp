@@ -22,6 +22,6 @@
 
         %>
         <h2>Здесь что-то происходит</h2>
-        <a href=<%=request.getContextPath() + "/end"%>><input type="button" value="Look data"></a>
+        <a href=<%=request.getContextPath() + "/end_process"%>><input type="button" value="Look data"></a>
     </body>
 </html>

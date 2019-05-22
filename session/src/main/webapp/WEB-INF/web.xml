@@ -1,6 +1,6 @@
 <!DOCTYPE web-app PUBLIC
  "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
- "http://java.sun.com/dtd/web-app_2_3.dtd" >
+ "http://java.sun.com/dtd/web-app_2_5.dtd" >
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
@@ -14,6 +14,10 @@
     <servlet-name>end</servlet-name>
     <jsp-file>/end.jsp</jsp-file>
   </servlet>
+  <servlet>
+    <servlet-name>endProcess</servlet-name>
+    <servlet-class>com.vladooha.servlet.EndProcessServlet</servlet-class>
+  </servlet>
 
   <servlet-mapping>
     <servlet-name>process</servlet-name>
@@ -22,6 +26,10 @@
   <servlet-mapping>
     <servlet-name>end</servlet-name>
     <url-pattern>/end</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>endProcess</servlet-name>
+    <url-pattern>/end_process</url-pattern>
   </servlet-mapping>
 
   <!-- Filters -->
