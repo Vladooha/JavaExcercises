@@ -1,4 +1,4 @@
-package com.vladooha;
+package com.vladooha.filter;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;

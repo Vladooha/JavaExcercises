@@ -1,4 +1,4 @@
-package com.vladooha;
+package com.vladooha.listener;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;

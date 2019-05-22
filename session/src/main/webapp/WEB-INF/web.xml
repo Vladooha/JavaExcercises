@@ -27,7 +27,7 @@
   <!-- Filters -->
   <filter>
     <filter-name>requestPathFilter</filter-name>
-    <filter-class>com.vladooha.RequestPathFilter</filter-class>
+    <filter-class>com.vladooha.filter.RequestPathFilter</filter-class>
   </filter>
 
   <filter-mapping>
@@ -37,7 +37,7 @@
 
   <!-- Listeners -->
   <listener>
-    <listener-class>com.vladooha.ServerStatusListener</listener-class>
-    <listener-class>com.vladooha.SessionStatusListener</listener-class>
+    <listener-class>com.vladooha.listener.ServerStatusListener</listener-class>
+    <listener-class>com.vladooha.listener.SessionStatusListener</listener-class>
   </listener>
 </web-app>
