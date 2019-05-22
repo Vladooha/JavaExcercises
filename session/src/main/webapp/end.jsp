@@ -7,5 +7,8 @@
     <body>
         <h2>Ваши данные: <%=session.getAttribute("name") + " " + session.getAttribute("surname")%></h2>
         <a href=<%=request.getContextPath()%>><input type="button" value="New iteration"></a>
+        <%
+            session.invalidate();
+        %>
     </body>
 </html>

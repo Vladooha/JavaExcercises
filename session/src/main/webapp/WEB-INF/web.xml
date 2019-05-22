@@ -5,21 +5,39 @@
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
 
+  <!-- Servlets -->
   <servlet>
-    <servlet-name>Process</servlet-name>
+    <servlet-name>process</servlet-name>
     <jsp-file>/process.jsp</jsp-file>
   </servlet>
   <servlet>
-    <servlet-name>End</servlet-name>
+    <servlet-name>end</servlet-name>
     <jsp-file>/end.jsp</jsp-file>
   </servlet>
 
   <servlet-mapping>
-    <servlet-name>Process</servlet-name>
+    <servlet-name>process</servlet-name>
     <url-pattern>/process</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-    <servlet-name>End</servlet-name>
+    <servlet-name>end</servlet-name>
     <url-pattern>/end</url-pattern>
   </servlet-mapping>
+
+  <!-- Filters -->
+  <filter>
+    <filter-name>requestPathFilter</filter-name>
+    <filter-class>com.vladooha.RequestPathFilter</filter-class>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>requestPathFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <!-- Listeners -->
+  <listener>
+    <listener-class>com.vladooha.ServerStatusListener</listener-class>
+    <listener-class>com.vladooha.SessionStatusListener</listener-class>
+  </listener>
 </web-app>
