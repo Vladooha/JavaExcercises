@@ -1,6 +1,6 @@
 package com.vladooha.data.entity;
 
-import com.vladooha.dto.HomeDTO;
+import com.vladooha.data.dto.HomeDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

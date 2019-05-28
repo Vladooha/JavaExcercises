@@ -1,7 +1,6 @@
 package com.vladooha.data.entity;
 
-import com.vladooha.dto.HomeDTO;
-import com.vladooha.dto.ProfileDTO;
+import com.vladooha.data.dto.ProfileDTO;
 import lombok.Data;
 
 import javax.persistence.*;

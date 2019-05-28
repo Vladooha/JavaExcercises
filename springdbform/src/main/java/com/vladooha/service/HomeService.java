@@ -1,8 +1,9 @@
 package com.vladooha.service;
 
 import com.vladooha.data.entity.Home;
-import com.vladooha.dto.HomeDTO;
-import org.hibernate.*;
+import com.vladooha.data.dto.HomeDTO;
+import com.vladooha.service.repo.QueryWrapper;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,126 +14,59 @@ import java.util.List;
 @Service
 public class HomeService {
     private SessionFactory sessionFactory;
+    private QueryWrapper queryWrapper;
 
     @Autowired
-    public HomeService(EntityManagerFactory factory) {
-        if(factory.unwrap(SessionFactory.class) == null){
+    public HomeService(EntityManagerFactory factory, QueryWrapper queryWrapper) {
+        if (factory.unwrap(SessionFactory.class) == null) {
             throw new NullPointerException("factory is not a hibernate factory");
         }
+
         this.sessionFactory = factory.unwrap(SessionFactory.class);
+        this.queryWrapper = queryWrapper;
     }
 
     public List<HomeDTO> findAllDTO() {
-//        Session session = sessionFactory.openSession();
-//        String hqlStr = "SELECT H FROM Home H";
-//        Query query = session.createQuery(hqlStr);
-//        List allHomes = query.list();
+        List<Home> homeList = findAll();
 
-        Session session = sessionFactory.openSession();
-        Transaction transaction = null;
-        List homeList = new ArrayList();
-        try{
-            transaction = session.beginTransaction();
-
-            homeList = (List)session.createQuery("FROM Home").list();
-
-            transaction.commit();
-        } catch(HibernateException e) {
-            e.printStackTrace();
-        } finally {
-            session.close();
-        }
-
-        List<HomeDTO> result = new ArrayList<>(homeList.size());
-        for (Object obj : homeList) {
-            if (obj instanceof Home) {
-                Home home = (Home) obj;
-                HomeDTO homeDTO = new HomeDTO(home);
-                result.add(homeDTO);
-            }
+        List<HomeDTO> result = new ArrayList<>();
+        for (Home home : homeList) {
+            HomeDTO homeDTO = new HomeDTO(home);
+            result.add(homeDTO);
         }
 
         return result;
     }
 
     public List<Home> findAll() {
-        Session session = sessionFactory.openSession();
-        Transaction transaction = null;
-        List homeList = new ArrayList();
-        try{
-            transaction = session.beginTransaction();
-
-            homeList = (List)session.createQuery("FROM Home").list();
-
-            transaction.commit();
-        } catch(HibernateException e) {
-            e.printStackTrace();
-        } finally {
-            session.close();
-        }
-
-        List<Home> result = new ArrayList<>(homeList.size());
-        for (Object obj : homeList) {
-            if (obj instanceof Home) {
-                Home home = (Home) obj;
-                result.add(home);
-            }
-        }
+        List<Home> result = queryWrapper.singleTransactionQuery(
+                List.class,
+                sessionFactory,
+                (session) -> session.createQuery("FROM Home").list());
 
         return result;
     }
 
     public Home findById(long id) {
-        Session session = sessionFactory.openSession();
-        Transaction transaction = null;
-        Home home = null;
-        try{
-            transaction = session.beginTransaction();
+        Home result = queryWrapper.singleTransactionQuery(
+                Home.class,
+                sessionFactory,
+                (session) -> session.get(Home.class, id));
 
-            home = session.get(Home.class, id);
-
-            transaction.commit();
-        } catch(HibernateException e) {
-            e.printStackTrace();
-        } finally {
-            session.close();
-        }
-
-        return home;
+        return result;
     }
 
     public long insertDTO(HomeDTO homeDTO) {
-        Home home = new Home();
-        home.mergeDTOwithouthId(homeDTO);
+        Long resultCode = queryWrapper.singleTransactionQuery(
+                Long.class,
+                sessionFactory,
+                (session) -> {
+                    Home home = new Home();
+                    home.mergeDTOwithouthId(homeDTO);
 
-        Long savedId = null;
-        Session session = sessionFactory.openSession();
-        Transaction transaction = null;
-        try{
-            transaction = session.beginTransaction();
+                    return session.save(home);
+                });
 
-            savedId = (Long) session.save(home);
-
-            transaction.commit();
-        } catch(HibernateException e) {
-            if(transaction != null)
-                transaction.rollback();
-            e.printStackTrace();
-        } finally {
-            session.close();
-        }
-
-        return savedId;
+        return resultCode != null ? resultCode : -1;
     }
-
-//    private <F, T> List<T> convertListType(Class<F> castFrom, Class<T> castTo, List list) {
-//        List<T> result = new ArrayList<>(list.size());
-//        for (Object obj : list) {
-//            if (obj.getClass().isAssignableFrom(castFrom)) {
-//                F classObj = (F) obj;
-//                T resultObj = castHomeToDTO(home);
-//                result.add(homeDTO);
-//            }
-//        }
-//    }
 }

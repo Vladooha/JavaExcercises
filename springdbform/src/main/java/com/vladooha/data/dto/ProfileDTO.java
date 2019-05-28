@@ -1,4 +1,4 @@
-package com.vladooha.dto;
+package com.vladooha.data.dto;
 
 import com.vladooha.data.entity.Profile;
 import lombok.Getter;

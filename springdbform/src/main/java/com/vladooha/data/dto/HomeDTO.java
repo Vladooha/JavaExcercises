@@ -1,11 +1,10 @@
-package com.vladooha.dto;
+package com.vladooha.data.dto;
 
 import com.vladooha.data.entity.Home;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.Min;
-import javax.validation.constraints.Size;
 
 @Getter
 @Setter
@@ -21,6 +20,6 @@ public class HomeDTO {
 
     private long id;
     private String adress;
-    @Min(1)
+    @Min(value = 1, message = "В доме не может быть меньше одного этажа!")
     private Integer stageCount;
 }

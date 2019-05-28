@@ -1,8 +1,8 @@
 package com.vladooha.controller;
 
-import com.vladooha.dto.HomeDTO;
-import com.vladooha.dto.HomeProfilesDTO;
-import com.vladooha.dto.ProfileDTO;
+import com.vladooha.data.dto.HomeDTO;
+import com.vladooha.data.dto.HomeProfilesDTO;
+import com.vladooha.data.dto.ProfileDTO;
 import com.vladooha.service.HomeService;
 import com.vladooha.service.ProfileService;
 import com.vladooha.service.SettlementService;
@@ -20,7 +20,6 @@ import java.util.List;
 @Controller
 public class SettlementController {
     private static final String NEW_SETTLE = "newSettle";
-    private static final String INSERTED_SETTLE = "insertedSettle";
 
     @Autowired
     private HomeService homeService;

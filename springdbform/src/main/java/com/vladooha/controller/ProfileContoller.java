@@ -1,7 +1,7 @@
 package com.vladooha.controller;
 
-import com.vladooha.dto.HomeDTO;
-import com.vladooha.dto.ProfileDTO;
+import com.vladooha.data.dto.HomeDTO;
+import com.vladooha.data.dto.ProfileDTO;
 import com.vladooha.service.HomeService;
 import com.vladooha.service.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
