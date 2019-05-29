@@ -5,6 +5,8 @@ import com.vladooha.data.dto.PersonDTO;
 import com.vladooha.data.dto.PersonStatisticDTO;
 import com.vladooha.data.dto.StatisticDTO;
 import com.vladooha.data.entity.Person;
+import com.vladooha.data.validation.annotation.AdultPerson;
+import com.vladooha.data.validation.annotation.HasCars;
 import com.vladooha.data.validation.grouping.ValidationSequence;
 import com.vladooha.service.CarService;
 import com.vladooha.service.PersonService;
@@ -68,7 +70,7 @@ public class MainController {
     @GetMapping("/personwithcars")
     @ResponseBody
     public ResponseEntity getPersonWithCars(
-            @RequestParam("personid") @Min(0L) Long personId) {
+            @RequestParam("personid") @Min(0L) @HasCars Long personId) {
         Person person = personService.findByCustomId(personId);
         if (person == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

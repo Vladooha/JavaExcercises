@@ -1,17 +1,17 @@
 package com.vladooha.data.validation.annotation;
 
-import com.vladooha.data.validation.AdultPersonValidator;
+import com.vladooha.data.validation.HasCarsValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.*;
 
 @Documented
-@Constraint(validatedBy = AdultPersonValidator.class)
+@Constraint(validatedBy = HasCarsValidator.class)
 @Target({ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface AdultPerson {
-    String message() default "Пользователю меньше 18";
+public @interface HasCars {
+    String message() default "У пользователя нет машин";
 
     Class<?>[] groups() default {};
 

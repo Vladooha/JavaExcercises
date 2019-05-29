@@ -1,10 +1,12 @@
 package com.vladooha.data.dto;
 
+import com.vladooha.data.validation.annotation.AdultPerson;
 import com.vladooha.data.validation.annotation.CarNotExists;
 import com.vladooha.data.validation.annotation.IsModel;
 import com.vladooha.data.validation.annotation.PersonExists;
 import com.vladooha.data.validation.grouping.FirstOrder;
 import com.vladooha.data.validation.grouping.SecondOrder;
+import com.vladooha.data.validation.grouping.ThirdOrder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -29,5 +31,6 @@ public class CarDTO {
 
     @NotNull(groups = FirstOrder.class)
     @PersonExists(groups = SecondOrder.class)
+    @AdultPerson(groups = ThirdOrder.class)
     private Long ownerId;
 }

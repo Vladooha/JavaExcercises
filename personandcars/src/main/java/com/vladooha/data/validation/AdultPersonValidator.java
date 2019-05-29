@@ -1,7 +1,8 @@
 package com.vladooha.data.validation;
 
-import com.vladooha.data.repo.PersonRepo;
+import com.vladooha.data.entity.Person;
 import com.vladooha.data.validation.annotation.AdultPerson;
+import com.vladooha.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.ConstraintValidator;
@@ -12,12 +13,15 @@ import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
-public class AdultPersonValidator implements ConstraintValidator<AdultPerson, Date> {
+public class AdultPersonValidator implements ConstraintValidator<AdultPerson, Long> {
     @Autowired
-    private PersonRepo personRepo;
+    private PersonService personService;
 
     @Override
-    public boolean isValid(Date birthday, ConstraintValidatorContext context) {
+    public boolean isValid(Long personId, ConstraintValidatorContext context) {
+        Person person = personService.findByCustomId(personId);
+        Date birthday = person.getBirthday();
+
         LocalDate now = LocalDate.now();
         LocalDate personBirtday =
                 Instant.ofEpochMilli(birthday.getTime())
@@ -26,7 +30,7 @@ public class AdultPersonValidator implements ConstraintValidator<AdultPerson, Da
 
         long age = ChronoUnit.YEARS.between(now, personBirtday);
 
-        if (age < 18) {
+        if (Math.abs(age)< 18) {
             return false;
         }
 
