@@ -15,8 +15,8 @@ import java.util.List;
 
 @Controller
 public class HomeController {
-    private static final String NEW_HOME = "newHome";
-    private static final String INSERTED_HOME = "insertedHome";
+    public static final String NEW_HOME = "newHome";
+    public static final String INSERTED_HOME = "insertedHome";
 
     @Autowired
     private HomeService homeService;

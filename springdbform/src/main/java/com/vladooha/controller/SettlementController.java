@@ -19,7 +19,7 @@ import java.util.List;
 
 @Controller
 public class SettlementController {
-    private static final String NEW_SETTLE = "newSettle";
+    public static final String NEW_SETTLE = "newSettle";
 
     @Autowired
     private HomeService homeService;
@@ -37,7 +37,7 @@ public class SettlementController {
     }
 
     @PostMapping("/settlement")
-    public String addHome(
+    public String addSettlements(
             @Valid @ModelAttribute(NEW_SETTLE) HomeProfilesDTO homeProfilesDTO,
             BindingResult bindingResult,
             Model model) {

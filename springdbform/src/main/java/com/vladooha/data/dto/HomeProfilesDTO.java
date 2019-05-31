@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
@@ -24,6 +25,8 @@ public class HomeProfilesDTO {
     @Min(value = 1L, message = "Неверный формта идентификатора")
     @IsHome
     private long homeId;
+    @NotNull
     private ProfileDTO profileDTO;
+    @NotNull
     private HomeDTO homeDTO;
 }

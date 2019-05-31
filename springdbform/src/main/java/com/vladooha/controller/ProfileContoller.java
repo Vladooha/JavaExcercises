@@ -1,8 +1,6 @@
 package com.vladooha.controller;
 
-import com.vladooha.data.dto.HomeDTO;
 import com.vladooha.data.dto.ProfileDTO;
-import com.vladooha.service.HomeService;
 import com.vladooha.service.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,13 +15,11 @@ import java.util.List;
 
 @Controller
 public class ProfileContoller {
-    private static final String NEW_PROFILE = "newProfile";
-    private static final String INSERTED_PROFILE = "insertedProfile";
+    public static final String NEW_PROFILE = "newProfile";
+    public static final String INSERTED_PROFILE = "insertedProfile";
 
     @Autowired
     private ProfileService profileService;
-    @Autowired
-    private HomeService homeService;
 
     @GetMapping("/profile")
     public String getProfiles(Model model) {
@@ -52,8 +48,6 @@ public class ProfileContoller {
 
     private void initTable(Model model) {
         List<ProfileDTO> profileDTOList = profileService.findAllDTO();
-        List<HomeDTO> homeDTOList = homeService.findAllDTO();
         model.addAttribute("profiles", profileDTOList);
-        model.addAttribute("houses", homeDTOList);
     }
 }

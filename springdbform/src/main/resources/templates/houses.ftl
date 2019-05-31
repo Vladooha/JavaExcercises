@@ -34,7 +34,7 @@
             </div>
         </div>
         <#if insertedHome??>
-            <b>Дом по адресу '${insertedHome.adress}' успешно добавлен!</b>
+            <b>Дом по адресу '${insertedHome.adress!}' успешно добавлен!</b>
         </#if>
         <h2>Новый дом:</h2>
         <div>

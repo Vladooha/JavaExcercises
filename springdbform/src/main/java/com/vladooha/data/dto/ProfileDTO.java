@@ -4,6 +4,8 @@ import com.vladooha.data.entity.Profile;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.NotNull;
+
 
 @Getter
 @Setter
@@ -19,7 +21,9 @@ public class ProfileDTO {
     }
 
     private long id;
+    @NotNull
     private String name;
+    @NotNull
     private String surname;
     private HomeDTO home;
 }
