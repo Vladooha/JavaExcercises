@@ -2,14 +2,24 @@ package com.vladooha.service;
 
 import com.vladooha.data.dto.HomeDTO;
 import com.vladooha.data.entity.Home;
+import org.assertj.core.api.Fail;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.rules.TestRule;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.sql.DataSource;
+import java.sql.*;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
@@ -17,23 +27,21 @@ import static org.junit.Assert.*;
 @RunWith(SpringRunner.class)
 @ActiveProfiles("test")
 @SpringBootTest
+@Transactional
 public class HomeServiceTest {
     @Autowired
     private HomeService homeService;
+    @Autowired
+    private DataSource dataSource;
 
-//    @Before
-//    public void initTest() {
-//        try {
-//            Server webServer = Server.createWebServer(
-//                    "-web",
-//                    "-webAllowOthers",
-//                    "-webPort",
-//                    "8082");
-//            webServer.start();
-//        } catch (SQLException e)  {
-//            e.printStackTrace();
-//        }
-//    }
+    @After
+    public void tearDown() {
+        try {
+            clearDatabase();
+        } catch (Exception e) {
+            Fail.fail(e.getMessage());
+        }
+    }
 
     @Test
     public void insertDTOAndFindAllDTO_1DTOinsert_ReturnIDAndSameEntityAndIncCountBy1() {
@@ -89,18 +97,63 @@ public class HomeServiceTest {
         // Arrange
         HomeDTO fakeHomeDTO = new HomeDTO();
         fakeHomeDTO.setId(3);
-        fakeHomeDTO.setAdress("Adress3");
+        fakeHomeDTO.setAdress("Adress2");
         fakeHomeDTO.setStageCount(2);
 
         final long INSERT_DENIED_CODE = -1;
+        List<HomeDTO> profilesBefore = homeService.findAllDTO();
 
-        // Act
+        // Act and Assert
         long returnCode = homeService.insertDTO(fakeHomeDTO);
-        Home homeFromDB = homeService.findById(fakeHomeDTO.getId());
+        List<HomeDTO> profilesAfter = homeService.findAllDTO();
+        List<HomeDTO> addedProfile = profilesAfter
+                .stream()
+                .filter(p -> !profilesBefore.contains(p))
+                .collect(Collectors.toList());
+
+        assertEquals(1, addedProfile.size()); // 1 because of one added entity
+
+        final long EXPECTED_ID = addedProfile.get(0).getId();
+        Home homeFromDB = homeService.findById(EXPECTED_ID);
 
         // Assert
         assertNotEquals(INSERT_DENIED_CODE, returnCode);
-        assertNotEquals(null, homeFromDB); // 1 because of inserted home should be unique
+        assertNotEquals(null, homeFromDB);
         assertEquals(fakeHomeDTO, new HomeDTO(homeFromDB));
+    }
+
+    public void clearDatabase() throws SQLException {
+        Connection c = dataSource.getConnection();
+        Statement s = c.createStatement();
+
+        // Disable FK
+        s.execute("SET REFERENTIAL_INTEGRITY FALSE");
+
+        // Find all tables and truncate them
+        Set<String> tables = new HashSet<String>();
+        ResultSet rs = s.executeQuery("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES  where TABLE_SCHEMA='PUBLIC'");
+        while (rs.next()) {
+            tables.add(rs.getString(1));
+        }
+        rs.close();
+        for (String table : tables) {
+            s.executeUpdate("TRUNCATE TABLE " + table);
+        }
+
+        // Idem for sequences
+        Set<String> sequences = new HashSet<String>();
+        rs = s.executeQuery("SELECT SEQUENCE_NAME FROM INFORMATION_SCHEMA.SEQUENCES WHERE SEQUENCE_SCHEMA='PUBLIC'");
+        while (rs.next()) {
+            sequences.add(rs.getString(1));
+        }
+        rs.close();
+        for (String seq : sequences) {
+            s.executeUpdate("ALTER SEQUENCE " + seq + " RESTART WITH 1");
+        }
+
+        // Enable FK
+        s.execute("SET REFERENTIAL_INTEGRITY TRUE");
+        s.close();
+        c.close();
     }
 }
