@@ -1,7 +1,7 @@
 package com.vladooha.controller;
 
 import com.vladooha.data.dto.HomeDTO;
-import com.vladooha.data.dto.HomeProfilesDTO;
+import com.vladooha.data.dto.SettlementDTO;
 import com.vladooha.data.dto.ProfileDTO;
 import com.vladooha.service.HomeService;
 import com.vladooha.service.ProfileService;
@@ -31,21 +31,21 @@ public class SettlementController {
     @GetMapping("/settlement")
     public String getSettlement(Model model) {
         initTable(model);
-        model.addAttribute(NEW_SETTLE, new HomeProfilesDTO());
+        model.addAttribute(NEW_SETTLE, new SettlementDTO());
 
         return "settle";
     }
 
     @PostMapping("/settlement")
     public String addSettlements(
-            @Valid @ModelAttribute(NEW_SETTLE) HomeProfilesDTO homeProfilesDTO,
+            @Valid @ModelAttribute(NEW_SETTLE) SettlementDTO settlementDTO,
             BindingResult bindingResult,
             Model model) {
         if (bindingResult.hasErrors()) {
             initTable(model);
-            model.addAttribute(NEW_SETTLE, homeProfilesDTO);
+            model.addAttribute(NEW_SETTLE, settlementDTO);
         } else {
-            settlementService.settle(homeProfilesDTO);
+            settlementService.settle(settlementDTO);
             initTable(model);
         }
 
@@ -53,10 +53,10 @@ public class SettlementController {
     }
 
     private void initTable(Model model) {
-        List<HomeProfilesDTO> homeProfilesDTOList = settlementService.findAllDTO();
+        List<SettlementDTO> settlementDTOList = settlementService.findAllDTO();
         List<ProfileDTO> profileDTOList = profileService.findAllDTO();
         List<HomeDTO> homeDTOList = homeService.findAllDTO();
-        model.addAttribute("settlements", homeProfilesDTOList);
+        model.addAttribute("settlements", settlementDTOList);
         model.addAttribute("profiles", profileDTOList);
         model.addAttribute("houses", homeDTOList);
     }

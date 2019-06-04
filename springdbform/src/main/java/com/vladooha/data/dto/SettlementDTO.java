@@ -2,6 +2,7 @@ package com.vladooha.data.dto;
 
 import com.vladooha.data.validator.annotation.IsHome;
 import com.vladooha.data.validator.annotation.IsProfile;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,9 +11,10 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
-public class HomeProfilesDTO {
-    public HomeProfilesDTO() { }
-    public HomeProfilesDTO(ProfileDTO profileDTO, HomeDTO homeDTO) {
+@EqualsAndHashCode
+public class SettlementDTO {
+    public SettlementDTO() { }
+    public SettlementDTO(ProfileDTO profileDTO, HomeDTO homeDTO) {
         this.profileDTO = profileDTO;
         this.homeDTO = homeDTO;
         this.profileId = profileDTO.getId();

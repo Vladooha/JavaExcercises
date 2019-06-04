@@ -2,7 +2,7 @@ package com.vladooha.service;
 
 import com.vladooha.data.entity.Home;
 import com.vladooha.data.dto.HomeDTO;
-import com.vladooha.data.dto.HomeProfilesDTO;
+import com.vladooha.data.dto.SettlementDTO;
 import com.vladooha.data.dto.ProfileDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,20 +17,20 @@ public class SettlementService {
     @Autowired
     private ProfileService profileService;
 
-    public List<HomeProfilesDTO> findAllDTO() {
+    public List<SettlementDTO> findAllDTO() {
         List<ProfileDTO> settledProfiles = profileService.findAllSettledDTO();
-        List<HomeProfilesDTO> result = new ArrayList<>();
+        List<SettlementDTO> result = new ArrayList<>();
         for (ProfileDTO settledProfile : settledProfiles) {
             HomeDTO homeDTO = settledProfile.getHome();
-            HomeProfilesDTO homeProfilesDTO = new HomeProfilesDTO(settledProfile, homeDTO);
-            result.add(homeProfilesDTO);
+            SettlementDTO settlementDTO = new SettlementDTO(settledProfile, homeDTO);
+            result.add(settlementDTO);
         }
 
         return result;
     }
 
-    public void settle(HomeProfilesDTO homeProfilesDTO) {
-        Home home = homeService.findById(homeProfilesDTO.getHomeId());
-        profileService.addHome(homeProfilesDTO.getProfileId(), home);
+    public void settle(SettlementDTO settlementDTO) {
+        Home home = homeService.findById(settlementDTO.getHomeId());
+        profileService.addHome(settlementDTO.getProfileId(), home);
     }
 }

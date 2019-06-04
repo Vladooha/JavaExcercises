@@ -44,6 +44,12 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>test</scope>
+        </dependency>
+
         <!-- Support features -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

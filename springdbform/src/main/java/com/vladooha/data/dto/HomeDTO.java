@@ -1,6 +1,7 @@
 package com.vladooha.data.dto;
 
 import com.vladooha.data.entity.Home;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,6 +10,7 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
+@EqualsAndHashCode
 public class HomeDTO {
     public HomeDTO() { }
     public HomeDTO(Home home) {
@@ -19,6 +21,7 @@ public class HomeDTO {
         }
     }
 
+    @EqualsAndHashCode.Exclude
     private long id;
     @NotNull
     private String adress;

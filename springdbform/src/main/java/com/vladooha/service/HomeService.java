@@ -5,6 +5,7 @@ import com.vladooha.data.dto.HomeDTO;
 import com.vladooha.service.repo.QueryWrapper;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManagerFactory;

@@ -1,7 +1,7 @@
 package com.vladooha.controller;
 
 import com.vladooha.data.dto.HomeDTO;
-import com.vladooha.data.dto.HomeProfilesDTO;
+import com.vladooha.data.dto.SettlementDTO;
 import com.vladooha.data.dto.ProfileDTO;
 import com.vladooha.service.HomeService;
 import com.vladooha.service.ProfileService;
@@ -56,15 +56,15 @@ public class SettlementControllerTest {
         fakeHome1.setAdress("Adress1");
         fakeHome1.setStageCount(1);
 
-        HomeProfilesDTO fakeProfilesHome1 = new HomeProfilesDTO();
+        SettlementDTO fakeProfilesHome1 = new SettlementDTO();
         fakeProfilesHome1.setProfileDTO(fakeProfile1);
         fakeProfilesHome1.setHomeDTO(fakeHome1);
 
-        HomeProfilesDTO fakeProfilesHome2 = new HomeProfilesDTO();
+        SettlementDTO fakeProfilesHome2 = new SettlementDTO();
         fakeProfilesHome2.setProfileDTO(fakeProfile2);
         fakeProfilesHome2.setHomeDTO(fakeHome1);
 
-        List<HomeProfilesDTO> fakeSettlements = new ArrayList<>();
+        List<SettlementDTO> fakeSettlements = new ArrayList<>();
         fakeSettlements.add(fakeProfilesHome1);
         fakeSettlements.add(fakeProfilesHome2);
 
@@ -86,7 +86,7 @@ public class SettlementControllerTest {
     @Test
     public void addSettlement_WrongSettlement_NoAttemptionToAdd() throws Exception {
         // Arrange
-        HomeProfilesDTO fakeProfilesHome = new HomeProfilesDTO();
+        SettlementDTO fakeProfilesHome = new SettlementDTO();
         fakeProfilesHome.setHomeId(-2);
         fakeProfilesHome.setProfileId(9999);
 
@@ -117,7 +117,7 @@ public class SettlementControllerTest {
 
         homeService.insertDTO(fakeHome1);
 
-        HomeProfilesDTO fakeProfilesHome = new HomeProfilesDTO();
+        SettlementDTO fakeProfilesHome = new SettlementDTO();
         fakeProfilesHome.setHomeId(1);
         fakeProfilesHome.setProfileId(2);
 
