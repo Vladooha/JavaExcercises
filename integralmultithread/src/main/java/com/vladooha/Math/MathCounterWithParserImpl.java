@@ -1,9 +1,9 @@
-package com.vladooha;
+package com.vladooha.Math;
 
 import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
 
-public class MathCounter {
+public class MathCounterImpl1 implements MathCounter {
     public Double calcIntegral(String function, Double leftBound, Double rightBound) {
         if (function == null || leftBound == null || rightBound == null) {
             return null;
